@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- 背景圆形 -->
+  <circle cx="256" cy="256" r="240" fill="#4F46E5" stroke="#3730A3" stroke-width="8"/>
+
+  <!-- 笔记本图标 -->
+  <rect x="140" y="120" width="232" height="280" rx="12" fill="#FFFFFF"/>
+  <rect x="140" y="120" width="232" height="40" rx="12" fill="#E5E7EB"/>
+
+  <!-- 页面线条 -->
+  <line x1="170" y1="200" x2="342" y2="200" stroke="#D1D5DB" stroke-width="2"/>
+  <line x1="170" y1="230" x2="320" y2="230" stroke="#D1D5DB" stroke-width="2"/>
+  <line x1="170" y1="260" x2="342" y2="260" stroke="#D1D5DB" stroke-width="2"/>
+  <line x1="170" y1="290" x2="290" y2="290" stroke="#D1D5DB" stroke-width="2"/>
+
+  <!-- AI 图标 -->
+  <circle cx="300" cy="320" r="30" fill="#4F46E5"/>
+  <text x="300" y="330" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">AI</text>
+
+  <!-- 装饰性元素 -->
+  <circle cx="200" cy="350" r="3" fill="#10B981"/>
+  <circle cx="220" cy="340" r="3" fill="#F59E0B"/>
+  <circle cx="240" cy="355" r="3" fill="#EF4444"/>
+</svg>

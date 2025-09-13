@@ -4,6 +4,7 @@ import { useAppStore } from "../store";
 export const useAutoSave = (content: string, delay: number = 3000) => {
   const currentNote = useAppStore((state) => state.currentNote);
   const updateNote = useAppStore((state) => state.updateNote);
+  const saveNote = useAppStore((state) => state.saveNote);
   const config = useAppStore((state) => state.config);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -16,10 +17,23 @@ export const useAutoSave = (content: string, delay: number = 3000) => {
     }
 
     // Set new timeout for auto-save
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = setTimeout(async () => {
       if (currentNote.content !== content) {
+        // 更新本地状态（立即响应）
         updateNote({ content });
-        console.log("Auto-saved note:", currentNote.id);
+
+        // 保存到存储（异步）
+        try {
+          const updatedNote = {
+            ...currentNote,
+            content,
+            updatedAt: new Date(),
+          };
+          await saveNote(updatedNote);
+          console.log("Auto-saved note:", currentNote.id);
+        } catch (error) {
+          console.error("Auto-save failed:", error);
+        }
       }
     }, delay);
 
@@ -29,20 +43,50 @@ export const useAutoSave = (content: string, delay: number = 3000) => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [content, currentNote, updateNote, config.autoSave, delay]);
+  }, [content, currentNote, updateNote, saveNote, config.autoSave, delay]);
 
   // Save immediately on window blur/close
   useEffect(() => {
-    const handleWindowBlur = () => {
+    const handleWindowBlur = async () => {
       if (currentNote && currentNote.content !== content && content.trim()) {
+        // 立即更新状态
         updateNote({ content });
-        console.log("Saved on window blur:", currentNote.id);
+
+        // 立即保存到存储
+        try {
+          const updatedNote = {
+            ...currentNote,
+            content,
+            updatedAt: new Date(),
+          };
+          await saveNote(updatedNote);
+          console.log("Saved on window blur:", currentNote.id);
+        } catch (error) {
+          console.error("Save on blur failed:", error);
+        }
       }
     };
 
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    const handleBeforeUnload = async (e: BeforeUnloadEvent) => {
       if (currentNote && currentNote.content !== content && content.trim()) {
+        // 同步保存（阻塞）以确保数据不丢失
         updateNote({ content });
+
+        try {
+          const updatedNote = {
+            ...currentNote,
+            content,
+            updatedAt: new Date(),
+          };
+          // 在页面卸载时使用同步方法（如果可能的话）
+          await saveNote(updatedNote);
+        } catch (error) {
+          console.error("Save before unload failed:", error);
+          // 如果保存失败，提示用户
+          e.preventDefault();
+          e.returnValue = "您的更改可能未保存。确定要离开吗？";
+          return e.returnValue;
+        }
       }
     };
 
@@ -53,5 +97,5 @@ export const useAutoSave = (content: string, delay: number = 3000) => {
       window.removeEventListener("blur", handleWindowBlur);
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [content, currentNote, updateNote]);
+  }, [content, currentNote, updateNote, saveNote]);
 };

@@ -23,7 +23,7 @@ export interface AIAnalysisResult {
 
 export interface AppConfig {
   apiKey: string;
-  apiProvider: 'openai' | 'anthropic' | 'gemini';
+  apiProvider: "deepseek" | "openai" | "anthropic" | "gemini";
   autoSave: boolean;
   autoSaveDelay: number;
 }

@@ -1,27 +1,41 @@
 {
   "name": "tori",
   "version": "1.0.0",
-  "description": "Electron + TypeScript + React Desktop App",
+  "description": "AI-driven intelligent notebook desktop application",
   "main": "dist/main/main.js",
-  "scripts": {
-    "build": "webpack && tsc --project tsconfig.main.json",
-    "build:renderer": "webpack --mode=production",
-    "build:main": "tsc --project tsconfig.main.json",
-    "dev": "tsc --project tsconfig.main.json && concurrently \"webpack serve\" \"wait-on http://localhost:3000 && electron .\"",
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": {
+    "name": "Tori Team",
+    "email": "team@tori.app"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/Hexthebaldy/Tori#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hexthebaldy/Tori.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Hexthebaldy/Tori/issues"
   },
-  "homepage": "https://github.com/Hexthebaldy/Tori#readme",
+  "keywords": [
+    "note-taking",
+    "ai",
+    "electron",
+    "desktop",
+    "productivity"
+  ],
+  "scripts": {
+    "build": "webpack --mode=production && tsc --project tsconfig.main.json",
+    "build:renderer": "webpack --mode=production",
+    "build:main": "tsc --project tsconfig.main.json",
+    "dev": "tsc --project tsconfig.main.json && concurrently \"webpack serve\" \"wait-on http://localhost:3000 && electron .\"",
+    "start": "electron .",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:linux": "npm run build && electron-builder --linux",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
     "@types/keytar": "^4.4.0",
@@ -32,6 +46,7 @@
     "concurrently": "^8.2.2",
     "css-loader": "^7.1.2",
     "electron": "^38.1.0",
+    "electron-builder": "^26.0.12",
     "html-webpack-plugin": "^5.6.4",
     "postcss": "^8.5.6",
     "postcss-loader": "^8.2.0",
@@ -53,5 +68,87 @@
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
     "zustand": "^5.0.8"
+  },
+  "build": {
+    "appId": "com.tori.app",
+    "productName": "Tori",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets",
+        "to": "assets",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "category": "Office"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }
