@@ -7,7 +7,7 @@
     "build": "webpack && tsc --project tsconfig.main.json",
     "build:renderer": "webpack --mode=production",
     "build:main": "tsc --project tsconfig.main.json",
-    "dev": "concurrently \"webpack serve\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "tsc --project tsconfig.main.json && concurrently \"webpack serve\" \"wait-on http://localhost:3000 && electron .\"",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
