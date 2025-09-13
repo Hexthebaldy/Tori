@@ -1,0 +1,45 @@
+{
+  "name": "tori",
+  "version": "1.0.0",
+  "description": "Electron + TypeScript + React Desktop App",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "build": "webpack && tsc --project tsconfig.main.json",
+    "build:renderer": "webpack --mode=production",
+    "build:main": "tsc --project tsconfig.main.json",
+    "dev": "concurrently \"webpack serve\" \"wait-on http://localhost:3000 && electron .\"",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hexthebaldy/Tori.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hexthebaldy/Tori/issues"
+  },
+  "homepage": "https://github.com/Hexthebaldy/Tori#readme",
+  "devDependencies": {
+    "@types/node": "^24.3.3",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "concurrently": "^8.2.2",
+    "css-loader": "^7.1.2",
+    "electron": "^38.1.0",
+    "html-webpack-plugin": "^5.6.4",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "wait-on": "^7.2.0",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  }
+}
