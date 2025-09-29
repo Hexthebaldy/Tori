@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+import { setupStorageIPC } from "./storage";
 
 /**
  * 创建主窗口函数
@@ -43,6 +44,9 @@ function createWindow(): void {
 // 当 Electron 完成初始化并准备创建浏览器窗口时触发
 // 某些 API 只能在此事件发生后使用
 app.on("ready", () => {
+  // 初始化存储 IPC 处理程序
+  setupStorageIPC();
+
   createWindow();
 
   // macOS 特有行为：点击 dock 图标时重新创建窗口
